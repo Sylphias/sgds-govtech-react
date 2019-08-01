@@ -13,6 +13,7 @@ import Breadcrumb from "../common/Breadcrumb";
 import AccordionBar from "../common/AccordionBar";
 import Card from "../common/Card";
 import Callout from "../common/Callout";
+import Notification from "../common/notification";
 
 // Import Redux Store
 import {
@@ -44,92 +45,114 @@ class ComponentList extends Component {
     };
   }
   // Export style
+  // Export style
   exportStyle = exportcss => {
-    var buttonLarge =
-      ".button-large \r\n { \r\n\t padding-left: " +
-      this.props.buttonLargeHorizontalPadding +
-      "px; \r\n\t padding-right: " +
-      this.props.buttonLargeHorizontalPadding +
-      "px;  \r\n } \r\n";
-    var buttonMedium =
-      ".button-medium  \r\n { \r\n\t padding-left: " +
-      this.props.buttonMediumHorizontalPadding +
-      "px; \r\n\t padding-right: " +
-      this.props.buttonMediumHorizontalPadding +
-      "px; \r\n } \r\n";
-    var buttonSmall =
-      ".button-small \r\n { \r\n\t padding-left: " +
-      this.props.buttonSmallHorizontalPadding +
-      "px; \r\n\t padding-right: " +
-      this.props.buttonSmallHorizontalPadding +
-      "px; \r\n } \r\n";
 
-    // const displayFontsize = this.props.displayFontsize;
-    // const smallFontsize = this.props.smallFontsize;
-    // const tableHeadColor = this.props.tableHeadColor;
-    // const themePrimaryColor = this.props.themePrimaryColor;
+    var variableStart = ":root \r\n { \r\n\t ";
 
-    var displayFontSize = "";
-    if (
-      cssPresets.typographyPresets.displayFontSize !==
-      this.props.displayFontsize
-    ) {
-      displayFontSize =
-        "display \r\n { \r\n\t font-size: " +
-        this.props.displayFontsize +
-        "px; \r\n } \r\n";
+    var themePrimaryColor = ""
+    if(cssPresets.themePresets.primaryColor !== this.props.themePrimaryColor) {
+      themePrimaryColor = "--primary-color: " + this.props.themePrimaryColor + ";"
     }
 
-    var h1fontSize =
-      "h1 \r\n { \r\n\t font-size: " +
-      this.props.h1Fontsize +
-      "px; \r\n } \r\n";
-    var h2fontSize =
-      "h2 \r\n { \r\n\t font-size: " +
-      this.props.h2Fontsize +
-      "px; \r\n } \r\n";
-    var h3fontSize =
-      "h3 \r\n { \r\n\t font-size: " +
-      this.props.h3Fontsize +
-      "px; \r\n } \r\n";
-    var h4fontSize =
-      "h4 \r\n { \r\n\t font-size: " +
-      this.props.h4Fontsize +
-      "px; \r\n } \r\n";
-    var h5fontSize =
-      "h5 \r\n { \r\n\t font-size: " +
-      this.props.h5Fontsize +
-      "px; \r\n } \r\n";
-    var h6fontSize =
-      "h6 \r\n { \r\n\t font-size: " +
-      this.props.h6Fontsize +
-      "px; \r\n } \r\n";
-    var smallFontsize =
-      "small \r\n { \r\n\t font-size: " +
-      this.props.smallFontsize +
-      "px; \r\n } \r\n";
+    var variableEnd = "\r\n } \r\n ";
 
-    var style =
-      buttonSmall +
-      buttonMedium +
-      buttonLarge +
-      displayFontSize +
-      h1fontSize +
-      h2fontSize +
-      h3fontSize +
-      h4fontSize +
-      h5fontSize +
-      h6fontSize +
-      smallFontsize;
+    var variables = variableStart + themePrimaryColor + variableEnd;
 
-    console.log(style);
+    var btnSmHorizontalPadding = ""
+    if(cssPresets.buttonPresets.smPaddingHorizontalDefault !== this.props.buttonSmallHorizontalPadding) {
+      btnSmHorizontalPadding = ".sgds-button-small \r\n { \r\n\t padding-left: "+ this.props.buttonSmallHorizontalPadding + "px; \r\n\t padding-right: " + this.props.buttonSmallHorizontalPadding + "px; \r\n } \r\n"
+    }
 
-    var data = new Blob([style], { type: "text/css" });
-    var csvURL = window.URL.createObjectURL(data);
-    var tempLink = document.createElement("a");
-    tempLink.href = csvURL;
-    tempLink.setAttribute("download", "custom.css");
-    tempLink.click();
+    var btnSmVerticalPadding = ""
+    if(cssPresets.buttonPresets.smPaddingVerticalDefault !== this.props.buttonSmallVerticalPadding) {
+      btnSmVerticalPadding = ".sgds-button-small \r\n { \r\n\t padding-top: "+ this.props.buttonSmallVerticalPadding + "px; \r\n\t padding-bottom: " + this.props.buttonSmallVerticalPadding + "px; \r\n } \r\n"
+    }
+    
+    var btnMeHorizontalPadding = ""
+    if(cssPresets.buttonPresets.mePaddingHorizontalDefault !== this.props.buttonMediumHorizontalPadding) {
+      btnMeHorizontalPadding = ".sgds-button-medium  \r\n { \r\n\t padding-left: "+ this.props.buttonMediumHorizontalPadding + "px; \r\n\t padding-right: " + this.props.buttonMediumHorizontalPadding + "px; \r\n } \r\n"
+    }
+
+    var btnMeVerticalPadding = ""
+    if(cssPresets.buttonPresets.mePaddingVerticalDefault !== this.props.buttonMediumVerticalPadding) {
+      btnMeVerticalPadding = ".sgds-button-medium  \r\n { \r\n\t padding-left: "+ this.props.buttonMediumVerticalPadding + "px; \r\n\t padding-right: " + this.props.buttonMediumVerticalPadding + "px; \r\n } \r\n"
+    }
+
+    var btnLaHortizontalPadding =""
+    if(cssPresets.buttonPresets.laPaddingHorizontalDefault !== this.props.buttonLargeHorizontalPadding) {
+      btnLaHortizontalPadding = ".sgds-button-large \r\n { \r\n\t padding-left: "+ this.props.buttonLargeHorizontalPadding + "px; \r\n\t padding-right: " + this.props.buttonLargeHorizontalPadding + "px;  \r\n } \r\n"
+    }
+
+    var btnLaVerticalPadding =""
+    if(cssPresets.buttonPresets.laPaddingVerticalDefault !== this.props.buttonLargeVerticalPadding) {
+      btnLaHortizontalPadding = ".sgds-button-large \r\n { \r\n\t padding-left: "+ this.props.buttonLargeVerticalPadding + "px; \r\n\t padding-right: " + this.props.buttonLargeVerticalPadding + "px;  \r\n } \r\n"
+    }
+
+    var displayFontSize = "";
+    if (cssPresets.typographyPresets.displayFontsizeDefault !== this.props.displayFontsize) {
+      displayFontSize = "display \r\n { \r\n\t font-size: " + this.props.displayFontsize + "px; \r\n } \r\n";
+    }
+
+    var h1fontSize = ""
+    if(cssPresets.typographyPresets.h1FontsizeDefault !== this.props.h1Fontsize){
+      h1fontSize = "h1 \r\n { \r\n\t font-size: " + this.props.h1Fontsize + "px; \r\n } \r\n";
+    }
+
+    var h2fontSize = ""
+    if(cssPresets.typographyPresets.h2FontsizeDefault !== this.props.h2Fontsize) {
+      h2fontSize = "h2 \r\n { \r\n\t font-size: " + this.props.h2Fontsize + "px; \r\n } \r\n";
+    }
+
+    var h3fontSize= ""
+    if(cssPresets.typographyPresets.h3FontsizeDefault !== this.props.h3Fontsize) {
+      h3fontSize = "h3 \r\n { \r\n\t font-size: " + this.props.h3Fontsize + "px; \r\n } \r\n";
+    }
+    
+    var h4fontSize = ""
+    if(cssPresets.typographyPresets.h4FontsizeDefault !== this.props.h4Fontsize){
+      h4fontSize = "h4 \r\n { \r\n\t font-size: " + this.props.h4Fontsize + "px; \r\n } \r\n";
+    }
+    
+    var h5fontSize = ""
+    if(cssPresets.typographyPresets.h5FontsizeDefault !== this.props.h5Fontsize) {
+      h5fontSize = "h5 \r\n { \r\n\t font-size: " + this.props.h5Fontsize + "px; \r\n } \r\n";
+    }
+    
+    var h6fontSize = ""
+    if(cssPresets.typographyPresets.h6FontsizeDefault !== this.props.h6Fontsize) {
+      h6fontSize = "h6 \r\n { \r\n\t font-size: " + this.props.h6Fontsize + "px; \r\n } \r\n";
+    }
+    
+    var smallFontsize = ""
+    if(cssPresets.typographyPresets.smallFontsizeDefault !== this.props.smallFontsize) {
+      smallFontsize = "small \r\n { \r\n\t font-size: " + this.props.smallFontsize + "px; \r\n } \r\n";
+    }
+
+    // tableIsNarrow: state.cssProperties.tableIsNarrow,
+    // tableIsHoverable: state.cssProperties.tableIsHoverable,
+    // tableIsFullwidth: state.cssProperties.tableIsFullwidth,
+
+    var tableHeadColor = ""
+    if(cssPresets.tablePresets.tableHeadColorDefault !== this.props.tableHeadColor) {
+      tableHeadColor = "table \r\n { \r\n\t background-color: " + this.props.tableHeadColor + "; \r\n } \r\n"
+    }
+
+    var style  = variables +  btnSmHorizontalPadding + btnSmVerticalPadding + btnMeHorizontalPadding +  btnMeVerticalPadding + btnLaHortizontalPadding + btnLaVerticalPadding + 
+    displayFontSize + h1fontSize + h2fontSize + h3fontSize + h4fontSize + h5fontSize+ h6fontSize + smallFontsize +
+    tableHeadColor;
+
+    if(style.length > 0) {
+      console.log(style);
+      var data = new Blob([style], { type: "text/css" });
+      var csvURL = window.URL.createObjectURL(data);
+      var tempLink = document.createElement("a");
+      tempLink.href = csvURL;
+      tempLink.setAttribute("download", "custom.css");
+      tempLink.click();
+    } else {
+      console.log("Nothing found to export!!")
+    }
   };
 
   remove_first_occurrence(str, searchstr) {
@@ -440,6 +463,8 @@ class ComponentList extends Component {
         <Card card={this.cardItems} />
         <div className="elementTitle">Callout</div>
         <Callout callout={this.callout} />
+        <div className="elementTitle">Notifications</div>
+        <Notification />
         <div className="row">
           <div className="sgds-button sgds-button is-rounded is-primary is-large">
             <button onClick={this.exportStyle}>Export</button>
